@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<br>
+	<br>
+	<div class="container py-5">
+		<div class="card bg-ligth">
+			<div class="card-body">
+				<form class="form-inline my-2 my-lg-0"
+					th:action="@{/productos/buscar/}+${busqueda}" method="get">
+					<input class="form-control mr-sm-2" type="search"
+						th:value="${busqueda}" placeholder="Buscador..." name="busqueda"
+						id="busqueda" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+
+	<div class="container py-4">
+		<div class="card-title">
+			Total:
+			<div th:text="${total}"></div>
+		</div>
+		<h4 class="card-title">
+			<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/productos/form}"
+				class="btn btn-primary btn-xs">Crear Producto</a>
+		</h4>
+		<div class="card-columns">
+			<div class="card" th:each="producto:${productos} ">
+				<div th:id="'carouselExampleControls'+${producto.codigo}"
+					class="carousel slide card-img-top" data-ride="carousel">
+					<div class="carousel-inner">
+
+						<div
+							th:class="${iStat.index==0}?'carousel-item active':'carousel-item'"
+							th:each="foto, iStat:${producto.fotos}">
+							<img th:if="${#strings.length(foto.foto)>0}"
+								class="img-thumbnail rounded d-block" th:alt="${foto.foto}"
+								th:src="${'/fotos/uploads/'}+ ${foto.foto}" />
+						</div>
+
+					</div>
+					<a class="carousel-control-prev"
+						th:href="'#carouselExampleControls'+${producto.codigo}"
+						role="button" data-slide="prev"> <span
+						class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+						class="sr-only">Previous</span>
+					</a> <a class="carousel-control-next"
+						th:href="'#carouselExampleControls'+${producto.codigo}"
+						role="button" data-slide="next"> <span
+						class="carousel-control-next-icon" aria-hidden="true"></span> <span
+						class="sr-only">Next</span>
+					</a>
+				</div>
+				<div class="card-body">
+					<h5 class="card-title">
+						<a class="link" th:href="@{/productos/ver/} + ${producto.id}"
+							th:text="${producto.nombre}"></a>
+					</h5>
+					<div class="card-text">
+						<div>
+							Codigo: <span class="card-title" th:text="${producto.codigo}"></span>
+						</div>
+						<div class="card-text">
+							Descripcion: <span th:text="${producto.descripcion}"></span>
+						</div>
+						<div class="h4">
+							Precio: $<span th:text="${producto.precioVenta}"></span>
+						</div>
+					</div>
+
+					<div sec:authorize="hasRole('ROLE_ADMIN')">
+						<a class="btn btn-primary btn-xs"
+							th:href="@{/productos/ver/} + ${producto.id}"
+							th:text="${producto.id}"></a> <a class="btn btn-primary btn-xs"
+							th:href="@{/productos/form/} + ${producto.id}" th:text="Editar"></a>
+						<a class="btn btn-danger btn-xs"
+							th:href="@{/productos/eliminar/} + ${producto.id}"
+							th:text="Eliminar"
+							onClick="return confirm('Estas Seguro que quieres eliminar?');"></a>
+					</div>
+					<div>
+						<div sec:authorize="hasRole('ROLE_ADMIN')">
+							<small class="text-muted">Creacion <span
+								th:text="${producto.createAt}"></span></small>
+						</div>
+						<div sec:authorize="hasRole('ROLE_ADMIN')">
+							<small class="text-muted">Ultima actualizacion <span
+								th:text="${producto.LastUpdate}"></span></small>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<nav th:replace="paginator-nav :: paginator"></nav>
+	</div>
+
+
+
+
+	<footer th:replace="layout/layout :: footer"> </footer>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<table th:fragment="Calculos" class="d-none">
+
+		<tbody id="plantillaCalculos">
+			<tr id="row_{ID}">
+				<td class="d-none"><input type="hidden" value="{ID}"
+					name="calculo_id[]" /></td>
+				<td >{NOMBRE}</td>
+				<td >{PRECIOFAB}</td>
+				<td>{PRECIOVENT}</td>
+				<td><a href="#" class="btn btn-danger btn-xs" onclick="itemsHelper.eliminarLineaCalculo({ID},{PRECIOFAB},{PRECIOVENT});">x</a></td>
+			</tr>
+
+		</tbody>
+
+	</table>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<br><br>
+	<div class="container py-4">
+		<div class="card bg-ligth">
+			<div class="card-body">
+				<form class="form-inline my-2 my-lg-0"
+					th:action="@{/calculadora/buscar/}+${busqueda}" method="get">
+					<input class="form-control mr-sm-2" type="search"
+						th:value="${busqueda}" placeholder="Buscador..." name="busqueda"
+						id="busqueda" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+	<div class="container py-4">
+
+		<div class="card bg-ligth">
+			<div class="card-header">
+				Total:
+				<div th:text="${total}"></div>
+			</div>
+			<div class="card-body">
+				<div sec:authorize="hasRole('ROLE_ADMIN')">
+					<h4 class="card-title">
+						<a th:href="@{/calculadora/form}" class="btn btn-primary btn-xs">Crear
+							calculo</a>
+					</h4>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table table-light table-striped">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Descripcion</th>
+								<th>Tiempo (h:m:s)</th>
+								<th>Area (cm) (lado1xlado)</th>
+								<th>Precio Fabrica</th>
+								<th>Precio Venta</th>
+								<th>Fecha Creacion</th>
+								<th>Fecha Edicion</th>
+								<th>Editar</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="calculo:${calculos}">
+								<td th:text="${calculo.id}"></td>
+								<td th:text="${calculo.descripcion}"></td>
+								<td
+									th:text="${calculo.horas + ':' + calculo.minutos + ':' + calculo.segundos}"></td>
+								<td th:text="${calculo.lado1 + 'x' + calculo.lado2}"></td>
+								<td th:text="${'$'+calculo.precioFabrica}"></td>
+								<td th:text="${'$'+calculo.precioVenta}"></td>
+								<td th:text="${calculo.createdAt}"></td>
+								<td th:text="${calculo.updatedAt}"></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{/calculadora/form/} + ${calculo.id}"
+									th:text="'Editar'"></a></td>
+								<td><a class="btn btn-danger btn-xs"
+									th:href="@{/calculadora/eliminar/} + ${calculo.id}"
+									th:text="Eliminar"
+									onClick="return confirm('Estas Seguro que quieres eliminar?');"></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+	<script th:replace="calculadora/js/autocomplete-vectores :: javascript"></script>
+</body>
+</html>

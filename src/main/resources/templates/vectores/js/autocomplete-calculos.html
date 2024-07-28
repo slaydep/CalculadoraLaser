@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<script type="text/javascript" th:fragment="javascript">
+		
+	$(document).ready(function() {
+
+			$("#buscar_calculo").autocomplete({
+
+				source : function(request, response) {
+					$.ajax({
+						url : "/vectores/cargar-calculos/" + request.term,
+						dataType : "json",
+						data : {
+							term : request.term
+						},
+						success : function(data) {
+							response($.map(data, function(calculo) {
+								return {
+									value : calculo.id,
+									label : calculo.descripcion,
+									precioFabrica : calculo.precioFabrica,
+									precioVenta : calculo.precioVenta,
+								};
+							}));
+						},
+					});
+				},
+				select : function(event, ui) {
+					//$("#buscar_calculo").val(ui.item.label+' Precio Fabrica $'+ui.item.precioFabrica);
+					
+					if(itemsHelper.hasCalculo(ui.item.value)){
+						//itemsHelper.incrementaCantidad(ui.item.nombre, ui.item.precioFabrica);
+						return false;
+					}
+					
+					var linea = $("#plantillaCalculos").html();
+					
+					linea = linea.replace(/{ID}/g, ui.item.value);
+					linea = linea.replace(/{NOMBRE}/g, ui.item.label);
+					linea = linea.replace(/{PRECIOFAB}/g, ui.item.precioFabrica);
+					linea = linea.replace(/{PRECIOVENT}/g, ui.item.precioVenta);
+					
+					$("#cargarItemCalculos tbody").append(linea);
+					itemsHelper.incrementaPrecios(ui.item.precioFabrica,ui.item.precioVenta);
+					$("#buscar_calculo").val('');
+					return false;
+				}
+			});
+			
+			$("form").submit(function(){
+				$("#plantillaCalculos").remove();
+				$("#buscar_calculo").val('');
+				return;
+			});
+
+		});
+		
+		var itemsHelper = {
+// 			calcularImporte: function(id, precio, cantidad){
+// 				$("#total_importe_" + id).html(parseInt(precio) * parseInt(cantidad));
+// 				this.calcularGranTotal();
+// 			},
+			hasCalculo: function(id){
+				
+				var resultado = false;
+				
+				$('input[name="calculo_id[]"]').each(function(){
+					if(parseInt(id) == parseInt($(this).val()) ){
+						resultado = true;
+					}
+				});
+				
+				return resultado;
+			},
+			incrementaPrecios: function(precioFabrica, precioVenta){
+				var precioFab = parseInt($("#precioFabrica").val())+precioFabrica;
+				var precioVent = parseInt($("#precioVenta").val())+precioVenta;
+				$("#precioFabrica").val(precioFab);
+				$("#precioVenta").val(precioVent);
+				
+			},
+			reducePrecios: function(precioFabrica, precioVenta){
+				var precioFab = parseInt($("#precioFabrica").val())-precioFabrica;
+				var precioVent = parseInt($("#precioVenta").val())-precioVenta;
+				$("#precioFabrica").val(precioFab);
+				$("#precioVenta").val(precioVent);
+				
+			},
+			eliminarLineaCalculo: function(id,precioFabrica,precioVenta){
+				$("#row_" + id).remove();
+				this.reducePrecios(precioFabrica,precioVenta);
+				//this.calcularGranTotal();
+			},
+// 			calcularGranTotal: function(){
+// 				var total = 0;
+				
+// 				$('span[id^="total_importe_"]').each(function(){
+// 					total += parseInt($(this).html());
+// 				});
+				
+// 				$('#gran_total').html(total);
+// 			}
+		}
+	</script>
+</body>
+</html>

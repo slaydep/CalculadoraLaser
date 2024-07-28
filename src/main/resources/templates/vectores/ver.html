@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+<br>
+	<div class="container py-5">
+
+		
+		<div class="card bg-ligth">
+			<div class="card-header h3" th:text="${titulo}"></div>
+			<div class="card-body">
+				<div>
+					<img class="img-thumbnail rounded d-block col-lg-6"
+						style="max-width: 100%;" th:alt="${vector.descripcion+'.jpg'}"
+						th:src="${'/vectores/uploads/'}+ ${vector.descripcion+'.jpg'}" />
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item h5">Nombre: <span
+						th:text="${vector.nombre}" /></li>
+					<li class="list-group-item h5">Codigo: <span
+						th:text="${vector.codigo}" /></li>
+					<li class="list-group-item h5">Descripcion: <span
+						th:text="${vector.descripcion}" /></li>
+					<li class="list-group-item h5">Espesor madera: <span
+						th:text="${vector.madera.nombre}" /></li>
+					<li class="list-group-item h5"
+						sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Precio
+						Fabrica: $<span th:text="${vector.precioFabrica}" />
+					</li>
+					<li class="list-group-item h5">Precio Venta: $<span
+						th:text="${vector.precioVenta}" /></li>
+
+				</ul>
+				<div class="p-2">
+					<a class="btn btn-primary" th:href="@{/vectores/listar}">Volver</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"> </footer>
+</body>
+</html>

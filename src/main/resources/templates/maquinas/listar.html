@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+<br><br>
+	<div class="container py-5" sec:authorize="hasRole('ROLE_USER')">
+		<div class="card bg-ligth" sec:authorize="hasRole('ROLE_USER')">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					<a th:href="@{/maquinas/form}"
+						class="btn btn-primary btn-xs">Nueva Maquina</a>
+				</h4>
+				<div class="table-responsive">
+					<table class="table table-light table-striped">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Nombre</th>
+								<th>Precio /min</th>
+								<th>Fecha Creacion</th>
+								<th>Editar</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="maquina:${maquinas}">
+								<td th:text="${maquina.id}"></td>
+								<td th:text="${maquina.nombre}"></td>
+								<td th:text="${maquina.precio}"></td>
+								<td th:text="${maquina.createAt}"></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{/maquinas/form/} + ${maquina.id}"
+									th:text="'Editar'"></a></td>
+								<td><a class="btn btn-danger btn-xs"
+									th:href="@{/maquinas/eliminar/} + ${maquina.id}"
+									th:text="Eliminar"
+									onClick="return confirm('Estas Seguro que quieres eliminar?');"></a></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"> </footer>
+
+</body>
+</html>

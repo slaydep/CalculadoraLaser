@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+<br><br>
+	<div class="container py-5">
+
+		<div class="card">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<form th:action="@{/productos/form}" th:object="${producto}"
+					method="post" enctype="multipart/form-data" class="form">
+
+					<div class="form-control">
+						<div class="form-group row py-2">
+							<label class="col-sm-2 col-form-label" for="nomb">Nombre</label>
+							<div class="col-sm-10">
+								<input type="text" th:field="*{nombre}" class="form-control"
+									id="nomb" th:errorclass="'form-control alert-danger'" />
+							</div>
+							<small th:if="${#fields.hasErrors('nombre')}"
+								th:errors="*{nombre}" class="form-text text-danger"></small>
+						</div>
+						<div class="form-group row py-2">
+							<label class="col-sm-2 col-form-label" for="cod">Codigo</label>
+							<div class="col-sm-10">
+								<input type="text" th:field="*{codigo}" class="form-control"
+									id="cod" th:errorclass="'form-control alert-danger'" />
+							</div>
+							<small th:if="${#fields.hasErrors('codigo')}"
+								th:errors="*{codigo}" class="form-text text-danger"></small>
+						</div>
+						<div class="form-group row py-2">
+							<label class="col-sm-2 col-form-label" for="descr">Descripcion</label>
+							<div class="col-sm-10">
+								<textarea th:field="*{descripcion}" class="form-control"
+									id="descr" th:errorclass="'form-control alert-danger'"></textarea>
+							</div>
+							<small th:if="${#fields.hasErrors('descripcion')}"
+								th:errors="*{descripcion}" class="form-text text-danger"></small>
+						</div>
+
+						<div sec:authorize="hasRole('ROLE_ADMIN')" class="form-group row py-2">
+							<label for="buscar_foto" class="col-sm-2 col-form-label"
+								th:text="'Agregar foto'"></label>
+							<div class="col-sm-6">
+								<input type="text" name="buscar_foto" id="buscar_foto"
+									class="form-control" />
+							</div>
+						</div>
+
+						<div class="form-control">
+						<p>Fotos:</p>
+							<table th:replace="productos/plantilla-fotos :: Fotos"></table>
+							
+							<table id="cargarItemFotos"
+								class="table table-sm table-striped table-hover">
+								<thead>
+									<tr>
+										<th>Nombre</th>
+										<th>Foto</th>
+										<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:id="${'row_foto_'+foto.id}" th:each="foto:${fotos}">
+										<td class="d-none"><input type="hidden" value="{ID}"
+											th:value="${foto.id}" name="foto_id[]" /></td>
+										<td th:text="${foto.nombre}">{NOMBRE}</td>
+										<td><img
+											th:if="${#strings.length(foto.foto)>0}"
+											class="img-thumbnail rounded" style="max-width: 35%;"
+											th:alt="${foto.foto}" th:src="${'/fotos/uploads/'}+ ${foto.foto}" /></td>
+										<td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" class="btn btn-danger btn-xs"
+											th:attr="onclick=|itemsHelper2.eliminarLineaFoto('${foto.id}','${foto.nombre}','${foto.foto}');|">x</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div sec:authorize="hasRole('ROLE_ADMIN')" class="form-group row py-2">
+							<label for="buscar_vector" class="col-sm-2 col-form-label"
+								th:text="'Agregar vector'"></label>
+							<div class="col-sm-6">
+								<input type="text" name="buscar_vector" id="buscar_vector"
+									class="form-control" />
+							</div>
+						</div>
+						<div class="form-control">
+							<p>Vectores:</p>
+							<table th:replace="productos/plantilla-vectores :: Vectores"></table>
+
+							<table id="cargarItemVectores"
+								class="table table-sm table-striped table-hover">
+								<thead>
+									<tr>
+										<th>Nombre</th>
+										<th sec:authorize="hasRole('ROLE_ADMIN')">Precio Fabrica</th>
+										<th>Precio Venta</th>
+										<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:id="${'row_'+vector.id}" th:each="vector:${vectores}">
+										<td class="d-none"><input type="hidden" value="{ID}"
+											th:value="${vector.id}" name="vector_id[]" /></td>
+										<td th:text="${vector.descripcion}">{NOMBRE}</td>
+										<td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${vector.precioFabrica}">{PRECIOFAB}</td>
+										<td th:text="${vector.precioVenta}">{PRECIOVENT}</td>
+										<td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" class="btn btn-danger btn-xs"
+											th:attr="onclick=|itemsHelper.eliminarLineaVector('${vector.id}');|">x</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="row form-group py-2" sec:authorize="hasRole('ROLE_ADMIN')">
+							<div class="col-sm-2">
+								<label class="col-form-label" for="total">Precio Fabrica</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="number" class="form-control" id="precioFabrica"
+									th:field="*{precioFabrica}" />
+							</div>
+							<small th:if="${#fields.hasErrors('precioFabrica')}"
+								th:errors="*{precioFabrica}" class="form-text text-danger"></small>
+						</div>
+						<div class="row form-group py-2">
+							<div class="col-sm-2">
+								<label class="col-form-label" for="total">Precio Venta</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="number" class="form-control" id="precioVenta"
+									th:field="*{precioVenta}" />
+							</div>
+							<small th:if="${#fields.hasErrors('precioVenta')}"
+								th:errors="*{precioVenta}" class="form-text text-danger"></small>
+						</div>
+						<div class="form-group row py-2">
+							<label class="col-sm-2 col-form-label" for="creat">Fecha
+								Creacion</label>
+							<div class="col-sm-10">
+								<input type="text" th:field="*{createAt}" class="form-control"
+									id="creat" readonly />
+							</div>
+							<small th:if="${#fields.hasErrors('createAt')}"
+								th:errors="*{createAt}" class="form-text text-danger"></small>
+
+						</div>
+						<div class="form-group row py-2">
+							<label class="col-sm-2 col-form-label" for="clastup">Ultima
+								Actualicacion</label>
+							<div class="col-sm-10">
+								<input type="text" th:field="*{lastUpdate}" class="form-control"
+									id="clastup" readonly />
+							</div>
+							<small th:if="${#fields.hasErrors('lastUpdate')}"
+								th:errors="*{lastUpdate}" class="form-text text-danger"></small>
+
+						</div>
+
+
+					</div>
+
+					<div class="form-control card-footer">
+						<div class="row">
+							<div class="col text-center">
+								<input type="submit" th:value="${accion}" sec:authorize="hasRole('ROLE_ADMIN')"
+									class="btn btn-primary" /> <a
+									class="btn btn-primary" th:href="@{/productos/listar}">Volver</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"> </footer>
+	<script th:replace="productos/js/autocomplete-fotos :: javascript"></script>
+	<script th:replace="productos/js/autocomplete-vectores :: javascript1"></script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<br></br>
+	<div class="container py-4">
+		
+		<div class="card bg-ligth">
+			<div class="card-header h3" th:text="${titulo}"></div>
+			<div class="card-body">
+				<div id="carouselExampleControls" class="carousel slide"
+					data-ride="carousel">
+					<div class="carousel-inner">
+
+						<div
+							th:class="${iStat.index==0}?'carousel-item active':'carousel-item'"
+							th:each="foto, iStat:${producto.fotos}">
+							<img th:if="${#strings.length(foto.foto)>0}"
+								class="img-thumbnail rounded d-block w-100"
+								th:alt="${foto.foto}"
+								th:src="${'/fotos/uploads/'}+ ${foto.foto}" />
+						</div>
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleControls"
+						role="button" data-slide="prev"> <span
+						class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+						class="sr-only">Previous</span>
+					</a> <a class="carousel-control-next" href="#carouselExampleControls"
+						role="button" data-slide="next"> <span
+						class="carousel-control-next-icon" aria-hidden="true"></span> <span
+						class="sr-only">Next</span>
+					</a>
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item h5">Nombre: <span
+						th:text="${producto.nombre}" /></li>
+					<li class="list-group-item h5">Codigo: <span
+						th:text="${producto.codigo}" /></li>
+					<li class="list-group-item h5">Descripcion: <span
+						th:text="${producto.descripcion}" /></li>
+					<li class="list-group-item h5"
+						sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Precio
+						Fabrica: $<span th:text="${producto.precioFabrica}" />
+					</li>
+					<li class="list-group-item h5">Precio Venta: $<span
+						th:text="${producto.precioVenta}" /></li>
+
+				</ul>
+				<div class="p-2">
+					<a class="btn btn-primary" th:href="@{/productos/listar}">Volver</a>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	<footer th:replace="layout/layout :: footer"> </footer>
+</body>
+</html>

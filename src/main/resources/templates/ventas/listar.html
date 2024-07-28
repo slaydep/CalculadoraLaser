@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+		<br>
+		<br>
+		
+	<div class="container py-4" sec:authorize="hasRole('ROLE_ADMIN')">
+		<div class="card bg-ligth">
+			<div class="card-header" th:text="${tituloConceptosGastos}"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					<a th:href="@{/ventas/formconceptosgastos}"
+						class="btn btn-primary btn-xs">Crear Concepto Gasto</a>
+				</h4>
+
+				<table class="table table-light table-striped">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Concepto Gasto</th>
+							<th>Previsto</th>
+							<th>Real</th>
+							<th>Diferencia</th>
+							<th>Fecha Actualizacion</th>
+							<th>Activa</th>
+							<th>Editar</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="conceptosGasto:${conceptosGastos}">
+							<td sec:authorize="hasRole('ROLE_USER')"><a
+								class="btn btn-primary btn-xs"
+								th:href="@{/ventas/verconceptogastos/} + ${conceptosGasto.id}"
+								th:text="${conceptosGasto.id}"></a></td>
+
+							<td th:text="${conceptosGasto.nombre}"></td>
+							<td th:text="${conceptosGasto.previsto}"></td>
+							<td th:text="${conceptosGasto.real}"></td>
+							<td th:text="${conceptosGasto.diferencia}"></td>
+							<td th:text="${conceptosGasto.lastUpdate}"></td>
+							<td th:text="${conceptosGasto.flagVigencia}"></td>
+							<td><a class="btn btn-primary btn-xs"
+								th:href="@{/ventas/formconceptosgastos/} + ${conceptosGasto.id}"
+								th:text="'Editar'"></a></td>
+							<td><a class="btn btn-danger btn-xs"
+								th:href="@{/ventas/eliminarconceptosgastos/} + ${conceptosGasto.id}"
+								th:text="Eliminar"
+								onClick="return confirm('Estas Seguro que quieres eliminar?');"></a></td>
+						</tr>
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="container py-4" sec:authorize="hasRole('ROLE_ADMIN')">
+		<div class="card bg-ligth">
+			<div class="card-header" th:text="${tituloConceptosIngresos}"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					<a th:href="@{/ventas/formconceptosingresos}"
+						class="btn btn-primary btn-xs">Crear Concepto Ingreso</a>
+				</h4>
+
+				<table class="table table-light table-striped">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Concepto Ingreso</th>
+							<th>Previsto</th>
+							<th>Real</th>
+							<th>Diferencia</th>
+							<th>Fecha Actualizacion</th>
+							<th>Activa</th>
+							<th>Editar</th>
+							<th>Desactivar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="conceptosIngreso:${conceptosIngresos}">
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+								class="btn btn-primary btn-xs"
+								th:href="@{/ventas/verconceptosingresos/} + ${conceptosIngreso.id}"
+								th:text="${conceptosIngreso.id}"></a></td>
+
+							<td th:text="${conceptosIngreso.nombre}"></td>
+							<td th:text="${conceptosIngreso.previsto}"></td>
+							<td th:text="${conceptosIngreso.real}"></td>
+							<td th:text="${conceptosIngreso.diferencia}"></td>
+							<td th:text="${conceptosIngreso.lastUpdate}"></td>
+							<td th:text="${conceptosIngreso.flagVigencia}"></td>
+							<td><a class="btn btn-primary btn-xs"
+								th:href="@{/ventas/formconceptosingresos/} + ${conceptosIngreso.id}"
+								th:text="'Editar'"></a></td>
+							<td><a class="btn btn-danger btn-xs"
+								th:href="@{/ventas/eliminarconceptosingresos/} + ${conceptosIngreso.id}"
+								th:text="Eliminar"
+								onClick="return confirm('Estas Seguro que quieres eliminar?');"></a></td>
+						</tr>
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+	
+	<div class="container py-4" sec:authorize="hasRole('ROLE_ADMIN')">
+		<div class="card bg-ligth">
+			<div class="card-header" th:text="${titulocuentas}"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					<a th:href="@{/ventas/formcuentas}" class="btn btn-primary btn-xs">Crear
+						Cuenta</a>
+				</h4>
+				<div class="table-responsive">
+					<table class="table table-light table-striped">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Cuenta</th>
+								<th>Ingresos</th>
+								<th>Gastos</th>
+								<th>Saldo</th>
+								<th>Fecha Actualizacion</th>
+								<th>Activa</th>
+								<th>Editar</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="cuenta:${cuentas}">
+								<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+									class="btn btn-primary btn-xs"
+									th:href="@{/ventas/vercuenta/} + ${cuenta.id}"
+									th:text="${cuenta.id}"></a></td>
+								<td th:text="${cuenta.nombre}"></td>
+								<td th:text="${cuenta.ingresos}"></td>
+								<td th:text="${cuenta.gastos}"></td>
+								<td th:text="${cuenta.saldo}"></td>
+								<td th:text="${cuenta.lastUpdate}"></td>
+								<td th:text="${cuenta.flagVigencia}"></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{/ventas/formcuentas/} + ${cuenta.id}"
+									th:text="'Editar'"></a></td>
+								<td><a class="btn btn-danger btn-xs"
+									th:href="@{/ventas/eliminarcuentas/} + ${cuenta.id}"
+									th:text="Eliminar"
+									onClick="return confirm('Estas Seguro que quieres eliminar?');"></a></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container py-4" sec:authorize="hasRole('ROLE_ADMIN')">
+		<div class="card bg-ligth" sec:authorize="hasRole('ROLE_ADMIN')">
+			<div class="card-header" th:text="${titulotransaccionesGastos}"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					<a th:href="@{/ventas/formtransaccionesgastos}"
+						class="btn btn-primary btn-xs">Nuevo Gasto</a>
+				</h4>
+				<div class="table-responsive">
+					<table class="table table-light table-striped">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Cantidad</th>
+								<th>Descripcion</th>
+								<th>Concepto Gasto</th>
+								<th>Cuenta</th>
+								<th>Fecha Actualizacion</th>
+								<th>Activa</th>
+								<th>Editar</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="transaccionesGasto:${transaccionesGastos}">
+								<td th:text="${transaccionesGasto.id}"></td>
+								<td th:text="${transaccionesGasto.cantidad}"></td>
+								<td th:text="${transaccionesGasto.descripcion}"></td>
+								<td th:text="${transaccionesGasto.conceptosGastos.nombre}"></td>
+								<td th:text="${transaccionesGasto.cuentas.nombre}"></td>
+								<td th:text="${transaccionesGasto.lastUpdate}"></td>
+								<td th:text="${transaccionesGasto.flagVigencia}"></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{/ventas/formtransaccionesgastos/} + ${transaccionesGasto.id}"
+									th:text="'Editar'"></a></td>
+								<td><a class="btn btn-danger btn-xs"
+									th:href="@{/ventas/eliminartransaccionesgastos/} + ${transaccionesGasto.id}"
+									th:text="Eliminar"
+									onClick="return confirm('Estas Seguro que quieres eliminar?');"></a></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="container py-4" sec:authorize="hasRole('ROLE_ADMIN')">
+		<div class="card bg-ligth" sec:authorize="hasRole('ROLE_ADMIN')">
+			<div class="card-header" th:text="${titulotransaccionesIngresos}"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					<a th:href="@{/ventas/formtransaccionesingresos}"
+						class="btn btn-primary btn-xs">Nuevo Ingreso</a>
+				</h4>
+				<div class="table-responsive">
+					<table class="table table-light table-striped">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Cantidad</th>
+								<th>Descripcion</th>
+								<th>Concepto Ingreso</th>
+								<th>Cuenta</th>
+								<th>Fecha Actualizacion</th>
+								<th>Activa</th>
+								<th>Editar</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="transaccionesIngreso:${transaccionesIngresos}">
+								<td th:text="${transaccionesIngreso.id}"></td>
+								<td th:text="${transaccionesIngreso.cantidad}"></td>
+								<td th:text="${transaccionesIngreso.descripcion}"></td>
+								<td th:text="${transaccionesIngreso.conceptosIngresos.nombre}"></td>
+								<td th:text="${transaccionesIngreso.cuentas.nombre}"></td>
+								<td th:text="${transaccionesIngreso.lastUpdate}"></td>
+								<td th:text="${transaccionesIngreso.flagVigencia}"></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{/ventas/formtransaccionesingresos/} + ${transaccionesIngreso.id}"
+									th:text="'Editar'"></a></td>
+								<td><a class="btn btn-danger btn-xs"
+									th:href="@{/ventas/eliminartransaccionesingresos/} + ${transaccionesIngreso.id}"
+									th:text="Eliminar"
+									onClick="return confirm('Estas Seguro que quieres eliminar?');"></a></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	
+
+	
+
+	<footer th:replace="layout/layout :: footer"> </footer>
+
+</body>
+</html>

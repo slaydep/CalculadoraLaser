@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	<br><br>
+	<div class="container py-4">
+
+		<div class="card bg-dark text-white">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<div th:object="${usuario}" th:remove="tag">
+					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger"
+						role="alert">
+						<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+					</ul>
+				</div>
+
+				<form th:action="@{/usuarios/form}" th:object="${usuario}"
+					method="post">
+					<div class="form-group row">
+						<label for="username" class="col-sm-2 col-form-label">Nombre
+							Usuario</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{username}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="email" class="col-sm-2 col-form-label">Email</label>
+						<div class="col-sm-6">
+							<input type="email" th:field="*{email}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="enabled" class="col-sm-2 col-form-label">Estado</label>
+						<div class="col-sm-6">
+							<input type="checkbox" th:field="*{enabled}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('enabled')}" th:errors="*{enabled}"></small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="password" class="col-sm-2 col-form-label">Password</label>
+						<div class="col-sm-6">
+							<input type="password" th:field="*{password}"
+								class="form-control" th:errorclass="'form-control alert-danger'"
+								autocomplete="off" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="confirm" class="col-sm-2 col-form-label">Confirmar
+							Password</label>
+						<div class="col-sm-6">
+							<input type="password" th:field="*{confirm}" class="form-control"
+								th:errorclass="'form-control alert-danger'" autocomplete="off" />
+							<small class="form-text text-danger"
+								th:if="${#fields.hasErrors('confirm')}" th:errors="*{confirm}"></small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="roles" class="col-sm-2 col-form-label">Roles</label> 
+						<select class="form-control" id="roles" th:field="*{roles}" multiple>
+							<option value="0">select option</option>
+							<option th:each="option : ${roles}" th:value="${option.id}"
+								th:text="${option.authority}"></option>
+						</select>
+						<small class="form-text text-danger"
+								th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></small>
+					</div>
+
+
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<input type="submit" th:value="${titulo}"
+								class="btn btn-secondary" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

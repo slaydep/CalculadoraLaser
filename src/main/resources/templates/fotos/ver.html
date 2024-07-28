@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<br><br>
+	<div class="container py-5">
+		<div class="card bg-ligth">
+			<div class="card-header h3" th:text="${titulo}"></div>
+			<div class="card-body">
+				<div>
+					<img th:if="${#strings.length(foto.foto)>0}"
+						class="img-thumbnail rounded" style="max-width: 100%;"
+						th:alt="${foto.foto}" th:src="${'/fotos/uploads/'}+ ${foto.foto}" />
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item h5">Nombre: <span
+						th:text="${foto.nombre}" /></li>
+					
+
+				</ul>
+				<div class="p-2">
+					<a class="btn btn-primary" th:href="@{/fotos/listar}">Volver</a>
+				</div>
+
+			</div>
+		</div>
+		
+
+	</div>
+	<footer th:replace="layout/layout :: footer"> </footer>
+</body>
+</html>

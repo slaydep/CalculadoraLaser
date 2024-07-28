@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card bg-ligth">
+			<div class="card-body">
+				<form class="form-inline my-2 my-lg-0"
+					th:action="@{/calculos/buscar/}+${busqueda}" method="get">
+					<input class="form-control mr-sm-2" type="search"
+						th:value="${busqueda}" placeholder="Buscador..." name="busqueda"
+						id="busqueda" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+	<div class="container py-4">
+		<div class="card bg-ligth">
+			<div class="card-title text-center" th:text="${titulo}"></div>
+			<div class="card-body">
+				<form class="form" method="post" th:action="@{/calculadora/form}"
+					th:object="${calculo}">
+					<input type="hidden" th:field="*{createdAt}" id="createdAt">
+					<input type="hidden" th:field="*{updatedAt}" id="updatedAt">
+					<div class="form-control">
+						<div class="form-group row py-2">
+							<label class="col-sm-2 col-form-label" for="descripcion">Descripcion</label>
+							<div class="col-sm-10">
+								<input type="text" th:field="*{descripcion}"
+									class="form-control" id="descripcion"
+									th:errorclass="'form-control alert-danger'" />
+							</div>
+							<small th:if="${#fields.hasErrors('descripcion')}"
+								th:errors="*{descripcion}" class="form-text text-danger"></small>
+						</div>
+					</div>
+					<div class="form-control">
+						<div class="form-group row py-2">
+							<label for="buscar_vector" class="col-sm-2 col-form-label"
+								th:text="'Agregar vector'"></label>
+							<div class="col-sm-6">
+								<input type="text" name="buscar_vector" id="buscar_vector"
+									class="form-control" />
+							</div>
+							<table th:replace="productos/plantilla-vectores :: Vectores"></table>
+
+							<table id="cargarItemVectores"
+								class="table table-sm table-striped table-hover">
+								<thead>
+									<tr>
+										<th>Nombre</th>
+										<th>Precio Fabrica</th>
+										<th>Precio Venta</th>
+										<th>Eliminar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:id="${'row_'+vector.id}" th:each="vector:${vectores}">
+										<td class="d-none"><input type="hidden" value="{ID}"
+											th:value="${vector.id}" name="vector_id[]" /></td>
+										<td th:text="${vector.descripcion}">{NOMBRE}</td>
+										<td th:text="${vector.precioFabrica}">{PRECIOFAB}</td>
+										<td th:text="${vector.precioVenta}">{PRECIOVENT}</td>
+										<td><a href="#" class="btn btn-danger btn-xs"
+											th:attr="onclick=|itemsHelper.eliminarLineaVector('${vector.id}','${vector.precioFabrica}','${vector.precioVenta}');|">x</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div> 
+					<div class="row align-items-start form-inline">
+						<div class="col-4">
+							<div>
+								<label class="col-form-label">Tiempo</label>
+								<div class="form-control">
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="horas" class="input-group-text">h</span>
+										</div>
+										<input class="form-control" type="number" placeholder="horas"
+											th:field="*{horas}"
+											th:errorclass="'form-control alert-danger'"
+											aria-label="horas" aria-describedby="horas" /><small
+											th:if="${#fields.hasErrors('horas')}" th:errors="*{horas}"
+											class="form-text text-danger"></small>
+									</div>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="minutos" class="input-group-text">m</span>
+										</div>
+										<input class="form-control" type="number"
+											placeholder="minutos" th:field="*{minutos}"
+											th:errorclass="'form-control alert-danger'"
+											aria-label="minutos" aria-describedby="minutos" /><small
+											th:if="${#fields.hasErrors('minutos')}"
+											th:errors="*{minutos}" class="form-text text-danger"></small>
+									</div>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="segundos" class="input-group-text">s</span>
+										</div>
+										<input class="form-control" type="number"
+											placeholder="segundos" th:field="*{segundos}"
+											th:errorclass="'form-control alert-danger'"
+											aria-label="segundos" aria-describedby="segundos" /><small
+											th:if="${#fields.hasErrors('segundos')}"
+											th:errors="*{segundos}" class="form-text text-danger"></small>
+									</div>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="madera" class="input-group-text">$/min</span>
+										</div>
+										<select class="form-control" th:field="*{maquina}"
+											id="maquina" name="maquina">
+											<option value="0">select option</option>
+											<option th:each="option : ${maquinas}"
+												th:value="${option.id}"
+												th:text="${option.nombre + ' $'+option.precio}"></option>
+										</select><small th:if="${#fields.hasErrors('maquina')}"
+											th:errors="*{maquina}" class="form-text text-danger"></small>
+									</div>
+									<div>
+										<a class="btn btn-primary" th:href="@{/maquinas/listar}">Editar
+											Maquinas</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-4">
+							<div>
+								<label class="col-form-label">Area</label>
+								<div class="form-control">
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="lado1" class="input-group-text">Lado 1</span>
+										</div>
+										<input class="form-control" type="number"
+											placeholder="lado 1 en cm" th:field="*{lado1}"
+											th:errorclass="'form-control alert-danger'"
+											aria-label="lado1" aria-describedby="lado1" step=".01" /><small
+											class="form-text text-danger"></small>
+									</div>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="lado2" class="input-group-text">Lado 2</span>
+										</div>
+										<input class="form-control" type="number"
+											placeholder="lado 2 en cm" th:field="*{lado2}"
+											th:errorclass="'form-control alert-danger'"
+											aria-label="lado2" aria-describedby="lado2" step=".01" /><small
+											class="form-text text-danger"></small>
+									</div>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="madera" class="input-group-text">$/cm2</span>
+										</div>
+										<select class="form-control" th:field="*{madera}" id="madera"
+											name="madera">
+											<option value="0">select option</option>
+											<option th:each="option : ${maderas}" th:value="${option.id}"
+												th:text="${option.nombre + ' $'+option.precio}"></option>
+										</select><small th:if="${#fields.hasErrors('madera')}"
+											th:errors="*{madera}" class="form-text text-danger"></small>
+									</div>
+									<div>
+										<a class="btn btn-primary" th:href="@{/maderas/listar}">Editar
+											Maderas</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-4">
+							<div>
+								<label class="col-form-label">Precio Calculado</label>
+								<div class="form-control">
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="precioFabrica" class="input-group-text">Precio
+												Fabrica</span>
+										</div>
+										<input class="form-control" type="number" readonly
+											th:field="*{precioFabrica}"
+											th:errorclass="'form-control alert-danger'"
+											aria-label="precioFabrica" aria-describedby="precioFabrica" /><small
+											th:if="${#fields.hasErrors('precioFabrica')}"
+											th:errors="*{precioFabrica}" class="form-text text-danger"></small>
+									</div>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="precioVenta" class="input-group-text">Precio
+												Venta</span>
+										</div>
+										<input class="form-control" type="number" readonly
+											th:field="*{precioVenta}"
+											th:errorclass="'form-control alert-danger'"
+											aria-label="precioVenta" aria-describedby="precioVenta" /><small
+											th:if="${#fields.hasErrors('precioVenta')}"
+											th:errors="*{precioVenta}" class="form-text text-danger"></small>
+									</div>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span id="factor" class="input-group-text">Factor</span>
+										</div>
+										<input class="form-control" type="number" placeholder="factor"
+											th:field="*{factor}"
+											th:errorclass="'form-control alert-danger'"
+											aria-label="factor" aria-describedby="factor" step=".01" /><small
+											class="form-text text-danger"></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-control card-footer py-4">
+						<div class="row">
+							<div class="col text-center">
+								<input class="btn btn-primary" type="submit"
+									th:value="${accion}" />
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="card bg-ligth">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-light table-striped">
+						<thead>
+							<tr>
+								<th>Descripcion</th>
+								<th>Tiempo (h:m:s)</th>
+								<th>Area (cm) (lado1xlado)</th>
+								<th>Precio Fabrica</th>
+								<th>Precio Venta</th>
+								<th>Fecha Creacion</th>
+								<th>Fecha Edicion</th>
+								<th>Editar</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="calculo:${calculos}">
+								<td th:text="${calculo.descripcion}"></td>
+								<td
+									th:text="${calculo.horas + ':' + calculo.minutos + ':' + calculo.segundos}"></td>
+								<td th:text="${calculo.lado1 + 'x' + calculo.lado2}"></td>
+								<td th:text="${'$'+calculo.precioFabrica}"></td>
+								<td th:text="${'$'+calculo.precioVenta}"></td>
+								<td th:text="${calculo.createdAt}"></td>
+								<td th:text="${calculo.updatedAt}"></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{/calculadora/form/} + ${calculo.id}"
+									th:text="'Editar'"></a></td>
+								<td><a class="btn btn-danger btn-xs"
+									th:href="@{/calculadora/eliminar/} + ${calculo.id}"
+									th:text="Eliminar"
+									onClick="return confirm('Estas Seguro que quieres eliminar?');"></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+	<script th:replace="calculadora/js/autocomplete-vectores :: javascript"></script>
+</body>
+</html>

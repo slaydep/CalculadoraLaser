@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+	<table th:fragment="Fotos" class="d-none">
+
+		<tbody id="plantillaFotos">
+			<tr id="row_foto_{ID}">
+				<td class="d-none"><input type="hidden" value="{ID}"
+					name="foto_id[]" /></td>
+				<td >{NOMBRE}</td>
+				<td > <img class="img-thumbnail rounded"
+									style="max-width: 35%;"
+									th:alt="${'{FOTO}'}"
+									th:src="${'/fotos/uploads/'}+ ${'{FOTO}'}" /></td>
+				<td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" class="btn btn-danger btn-xs" onclick="itemsHelper2.eliminarLineaFoto({ID});">x</a></td>
+			</tr>
+
+		</tbody>
+
+	</table>
+
+</body>
+</html>

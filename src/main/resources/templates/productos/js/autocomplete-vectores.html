@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<script type="text/javascript" th:fragment="javascript1">
+		
+	$(document).ready(function() {
+
+			$("#buscar_vector").autocomplete({
+
+				source : function(request, response) {
+					$.ajax({
+						url : "/productos/cargar-vectores/" + request.term,
+						dataType : "json",
+						data : {
+							term : request.term
+						},
+						success : function(data) {
+							response($.map(data, function(vector) {
+								return {
+									value : vector.id,
+									label : vector.descripcion,
+									precioFabrica : vector.precioFabrica,
+									precioVenta : vector.precioVenta,
+								};
+							}));
+						},
+					});
+				},
+				select : function(event, ui) {
+					if(itemsHelper.hasVector(ui.item.value)){
+						return false;
+					}
+					var linea = $("#plantillaVectores").html();
+					
+					linea = linea.replace(/{ID}/g, ui.item.value);
+					linea = linea.replace(/{NOMBRE}/g, ui.item.label);
+					linea = linea.replace(/{PRECIOFAB}/g, ui.item.precioFabrica);
+					linea = linea.replace(/{PRECIOVENT}/g, ui.item.precioVenta);
+					
+					$("#cargarItemVectores tbody").append(linea);
+					itemsHelper.incrementaPrecios(ui.item.precioFabrica,ui.item.precioVenta);
+					$("#buscar_vector").val('');
+					return false;
+				}
+			});
+			
+			$("form").submit(function(){
+				$("#plantillaVectores").remove();
+				$("#buscar_vector").val('');
+				return;
+			});
+
+		});
+		
+		var itemsHelper = {
+			hasVector: function(id){
+				
+				var resultado = false;
+				
+				$('input[name="vector_id[]"]').each(function(){
+					if(parseInt(id) == parseInt($(this).val()) ){
+						resultado = true;
+					}
+				});
+				
+				return resultado;
+			},
+			incrementaPrecios: function(precioFabrica, precioVenta){
+				var precioFab = parseInt($("#precioFabrica").val())+precioFabrica;
+				var precioVent = parseInt($("#precioVenta").val())+precioVenta;
+				$("#precioFabrica").val(precioFab);
+				$("#precioVenta").val(precioVent);
+				
+			},
+			reducePrecios: function(precioFabrica, precioVenta){
+				var precioFab = parseInt($("#precioFabrica").val())-precioFabrica;
+				var precioVent = parseInt($("#precioVenta").val())-precioVenta;
+				$("#precioFabrica").val(precioFab);
+				$("#precioVenta").val(precioVent);
+				
+			},
+			eliminarLineaVector: function(id,precioFabrica,precioVenta){
+				$("#row_" + id).remove();
+				this.reducePrecios(precioFabrica,precioVenta);
+			},
+		}
+	</script>
+</body>
+</html>

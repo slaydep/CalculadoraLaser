@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<br>
+	<br>
+	<div class="container py-4">
+
+		<div class="card col-8">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<form th:action="@{/ventas/formconceptosgastos}"
+					th:object="${conceptosGastos}" method="post" class="form">
+					<div class="form-control">
+						<div class="form-group row py-2">
+							<div class="col-sm-2">
+								<label class="col-form-label" for="nomb">Nombre</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="text" th:field="*{nombre}" class="form-control"
+									id="nomb" th:errorclass="'form-control alert-danger'" />
+							</div>
+							<small th:if="${#fields.hasErrors('nombre')}"
+								th:errors="*{nombre}" class="form-text text-danger"></small>
+						</div>
+						<div class="form-group row py-2">
+							<div class="col-sm-2">
+								<label class="col-form-label" for="prev">Previsto</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="number" th:field="*{previsto}" class="form-control"
+									id="prev" th:errorclass="'form-control alert-danger'" />
+							</div>
+							<small th:if="${#fields.hasErrors('previsto')}"
+								th:errors="*{previsto}" class="form-text text-danger"></small>
+						</div>
+
+						<div class="form-group row py-2">
+							<div class="col-sm-2">
+								<label class="col-form-label" for="cactv">Cuenta Activa</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="checkbox" th:field="*{flagVigencia}"
+									class="form-control" id="cactv"
+									th:errorclass="'form-control alert-danger'" value=1 />
+							</div>
+							<small th:if="${#fields.hasErrors('flagVigencia')}"
+								th:errors="*{flagVigencia}" class="form-text text-danger"></small>
+						</div>
+						<div class="form-group row py-2">
+							<div class="col-sm-2">
+								<label class="col-form-label" for="creat">Fecha Creacion</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="text" th:field="*{createAt}" class="form-control"
+									id="creat" readonly />
+							</div>
+
+
+						</div>
+						<div class="form-group row py-2">
+							<div class="col-sm-2">
+								<label class="col-form-label" for="lastup">Ultima
+									Actualicacion</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="text" th:field="*{lastUpdate}" class="form-control"
+									id="lastup" readonly />
+							</div>
+
+
+						</div>
+
+					</div>
+
+
+
+					<div class="form-control card-footer">
+						<div class="row">
+							<div class="col text-center">
+								<input type="submit" th:value="${accion}"
+									class="btn btn-primary" /> <input type="reset" value="reset"
+									class="btn btn-primary" /> <a class="btn btn-primary"
+									th:href="@{/ventas/listar}">Cancelar</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"> </footer>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+	<table th:fragment="Vectores" class="d-none">
+
+		<tbody id="plantillaVectores">
+			<tr id="row_{ID}">
+				<td class="d-none"><input type="hidden" value="{ID}"
+					name="vector_id[]" /></td>
+				<td >{NOMBRE}</td>
+				<td sec:authorize="hasRole('ROLE_ADMIN')">{PRECIOFAB}</td>
+				<td>{PRECIOVENT}</td>
+				<td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" class="btn btn-danger btn-xs" onclick="itemsHelper.eliminarLineaVector({ID},{PRECIOFAB},{PRECIOVENT});">x</a></td>
+			</tr>
+
+		</tbody>
+
+	</table>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+
+
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<br>
+	<br>
+	<div class="container py-5">
+		<div class="card bg-ligth">
+			<div class="card-body">
+				<form class="form-inline my-2 my-lg-0"
+					th:action="@{/vectores/buscar/}+${busqueda}" method="get">
+					<input class="form-control mr-sm-2" type="search"
+						th:value="${busqueda}" placeholder="Buscador..." name="busqueda"
+						id="busqueda" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+	<div class="container py-4">
+		<div class="card-title">
+			Total:
+			<div th:text="${total}"></div>
+		</div>
+		<h4 class="card-title">
+			<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/vectores/form}"
+				class="btn btn-primary btn-xs">Crear Vector</a>
+		</h4>
+		<div class="card-columns">
+			<div class="card" th:each="vector:${vectores}">
+				<td><img class="img-thumbnail rounded d-block col-lg-6"
+					style="max-width: 100%;" th:alt="${vector.descripcion+'.jpg'}"
+					th:src="${'/vectores/uploads/'}+ ${vector.descripcion+'.jpg'}" /></td>
+				<div class="card-body">
+					<h5 class="card-title">
+						<a class="link" th:href="@{/vectores/ver/} + ${vector.id}"
+							th:text="${vector.nombre}"></a>
+					</h5>
+					<div class="card-text">
+						<div>
+							Codigo: <span class="card-title" th:text="${vector.codigo}"></span>
+						</div>
+						<div class="card-text">
+							Descripcion: <span th:text="${vector.descripcion}"></span>
+						</div>
+						<div class="h4">
+							Precio: $<span th:text="${vector.precioVenta}"></span>
+						</div>
+					</div>
+
+					<div sec:authorize="hasRole('ROLE_ADMIN')">
+						<a class="btn btn-primary btn-xs"
+							th:href="@{/vectores/ver/} + ${vector.id}" th:text="${vector.id}"></a>
+						<a class="btn btn-primary btn-xs"
+							th:href="@{/vectores/form/} + ${vector.id}" th:text="Editar"></a>
+						<a class="btn btn-danger btn-xs"
+							th:href="@{/vectores/eliminar/} + ${vector.id}"
+							th:text="Eliminar"
+							onClick="return confirm('Estas Seguro que quieres eliminar?');"></a>
+					</div>
+					<div>
+						<div sec:authorize="hasRole('ROLE_ADMIN')">
+							<small class="text-muted">Creacion <span
+								th:text="${vector.createAt}"></span></small>
+						</div>
+						<div sec:authorize="hasRole('ROLE_ADMIN')">
+							<small class="text-muted">Ultima actualizacion <span
+								th:text="${vector.LastUpdate}"></span></small>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<nav th:replace="paginator-nav :: paginator"></nav>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"> </footer>
+
+</body>
+</html>

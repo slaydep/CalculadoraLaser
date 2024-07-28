@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<script type="text/javascript" th:fragment="javascript">
+		
+	$(document).ready(function() {
+
+			$("#buscar_foto").autocomplete({
+
+				source : function(request, response) {
+					$.ajax({
+						url : "/fotos/cargar-fotos/" + request.term,
+						dataType : "json",
+						data : {
+							term : request.term
+						},
+						success : function(data) {
+							response($.map(data, function(foto) {
+								return {
+									value : foto.id,
+									label : foto.nombre,
+									foto : foto.foto,
+								};
+							}));
+						},
+					});
+				},
+				select : function(event, ui) {
+					if(itemsHelper2.hasFoto(ui.item.value)){
+						return false;
+					}
+					var linea = $("#plantillaFotos").html();
+					
+					linea = linea.replace(/{ID}/g, ui.item.value);
+					linea = linea.replace(/{NOMBRE}/g, ui.item.label);
+					linea = linea.replace(/{FOTO}/g, ui.item.foto);
+					
+					$("#cargarItemFotos tbody").append(linea);
+					$("#buscar_foto").val('');
+					return false;
+				}
+			});
+			
+			$("form").submit(function(){
+				$("#plantillaFotos").remove();
+				$("#buscar_foto").val('');
+				return;
+			});
+
+		});
+		
+		var itemsHelper2 = {
+			hasFoto: function(id){
+				
+				var resultado = false;
+				
+				$('input[name="foto_id[]"]').each(function(){
+					if(parseInt(id) == parseInt($(this).val()) ){
+						resultado = true;
+					}
+				});
+				
+				return resultado;
+			},
+			
+			
+			eliminarLineaFoto: function(id,nombre,foto){
+				$("#row_foto_" + id).remove();
+			},
+		}
+	</script>
+</body>
+</html>
