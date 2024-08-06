@@ -22,11 +22,11 @@ public class UploadFileServiceImpl implements IUploadFileService {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 	
 //  en pc consultor
-	private final static String UPLOADS_FOLDER = "C:/tmp/lb80/uploads";
-	private final static String UPLOADS_FOLDER_CLIENTES = UPLOADS_FOLDER+"/clientes";
-	private final static String UPLOADS_FOLDER_VECTORES = UPLOADS_FOLDER+"/vectores";
-	private final static String UPLOADS_FOLDER_PRODUCTOS = UPLOADS_FOLDER+"/productos";
-	private final static String UPLOADS_FOLDER_FOTOS = UPLOADS_FOLDER+"/fotos";
+//	private final static String UPLOADS_FOLDER = "C:/tmp/lb80/uploads";
+//	private final static String UPLOADS_FOLDER_CLIENTES = UPLOADS_FOLDER+"/clientes";
+//	private final static String UPLOADS_FOLDER_VECTORES = UPLOADS_FOLDER+"/vectores";
+//	private final static String UPLOADS_FOLDER_PRODUCTOS = UPLOADS_FOLDER+"/productos";
+//	private final static String UPLOADS_FOLDER_FOTOS = UPLOADS_FOLDER+"/fotos";
 	
 //  en pc almacen lb80
 //	private final static String UPLOADS_FOLDER = "C:/daniel/uploads";
@@ -36,11 +36,11 @@ public class UploadFileServiceImpl implements IUploadFileService {
 //	private final static String UPLOADS_FOLDER_FOTOS = "C:/daniel/uploads/fotos";	
 
 //  en ubuntu
-//	private final static String UPLOADS_FOLDER = "/home/lb80user/uploads";
-//	private final static String UPLOADS_FOLDER_CLIENTES = "/home/lb80user/uploads/clientes";
-//	private final static String UPLOADS_FOLDER_VECTORES = "/home/lb80user/uploads/vectores";
-//	private final static String UPLOADS_FOLDER_PRODUCTOS = "/home/lb80user/uploads/productos";
-//	private final static String UPLOADS_FOLDER_FOTOS = "/home/lb80user/uploads/fotos";
+	private final static String UPLOADS_FOLDER = "/home/lb80user/uploads";
+	private final static String UPLOADS_FOLDER_CLIENTES = "/home/lb80user/uploads/clientes";
+	private final static String UPLOADS_FOLDER_VECTORES = "/home/lb80user/uploads/vectores";
+	private final static String UPLOADS_FOLDER_PRODUCTOS = "/home/lb80user/uploads/productos";
+	private final static String UPLOADS_FOLDER_FOTOS = "/home/lb80user/uploads/fotos";
 
 	
 	@Override
