@@ -36,11 +36,11 @@ public class UploadFileServiceImpl implements IUploadFileService {
 //	private final static String UPLOADS_FOLDER_FOTOS = "C:/daniel/uploads/fotos";	
 
 //  en ubuntu
-	private final static String UPLOADS_FOLDER = "/home/lb80user/uploads";
-	private final static String UPLOADS_FOLDER_CLIENTES = "/home/lb80user/uploads/clientes";
-	private final static String UPLOADS_FOLDER_VECTORES = "/home/lb80user/uploads/vectores";
-	private final static String UPLOADS_FOLDER_PRODUCTOS = "/home/lb80user/uploads/productos";
-	private final static String UPLOADS_FOLDER_FOTOS = "/home/lb80user/uploads/fotos";
+	private final static String UPLOADS_FOLDER = "/home/ubuntu/uploads";
+	private final static String UPLOADS_FOLDER_CLIENTES = "/home/ubuntu/uploads/clientes";
+	private final static String UPLOADS_FOLDER_VECTORES = "/home/ubuntu/uploads/vectores";
+	private final static String UPLOADS_FOLDER_PRODUCTOS = "/home/ubuntu/uploads/productos";
+	private final static String UPLOADS_FOLDER_FOTOS = "/home/ubuntu/uploads/fotos";
 
 	
 	@Override
