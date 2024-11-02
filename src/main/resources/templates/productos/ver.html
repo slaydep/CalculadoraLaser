@@ -43,7 +43,7 @@
 					<li class="list-group-item h5">Descripcion: <span
 						th:text="${producto.descripcion}" /></li>
 					<li class="list-group-item h5"
-						sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Precio
+						sec:authorize="hasAnyRole('ROLE_ADMIN')">Precio
 						Fabrica: $<span th:text="${producto.precioFabrica}" />
 					</li>
 					<li class="list-group-item h5">Precio Venta: $<span
