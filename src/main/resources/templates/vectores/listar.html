@@ -35,9 +35,10 @@
 		</h4>
 		<div class="card-columns">
 			<div class="card" th:each="vector:${vectores}">
-				<td><img class="img-thumbnail rounded d-block col-lg-6"
+				<div><a class="link" th:href="@{/vectores/ver/} + ${vector.id}"
+							${vector.><img class="img-thumbnail rounded d-block col-lg-6"
 					style="max-width: 100%;" th:alt="${vector.descripcion+'.jpg'}"
-					th:src="${'/vectores/uploads/'}+ ${vector.descripcion+'.jpg'}" /></td>
+					th:src="${'/vectores/uploads/'}+ ${vector.descripcion+'.jpg'}" /></a></div>
 				<div class="card-body">
 					<h5 class="card-title">
 						<a class="link" th:href="@{/vectores/ver/} + ${vector.id}"
@@ -50,7 +51,7 @@
 						<div class="card-text">
 							Descripcion: <span th:text="${vector.descripcion}"></span>
 						</div>
-						<div class="h4">
+						<div class="h4" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 							Precio: $<span th:text="${vector.precioVenta}"></span>
 						</div>
 					</div>

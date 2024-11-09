@@ -21,7 +21,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 	
-//  en pc consultor
+ // en pc consultor
 //	private final static String UPLOADS_FOLDER = "C:/tmp/lb80/uploads";
 //	private final static String UPLOADS_FOLDER_CLIENTES = UPLOADS_FOLDER+"/clientes";
 //	private final static String UPLOADS_FOLDER_VECTORES = UPLOADS_FOLDER+"/vectores";

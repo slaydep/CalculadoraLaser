@@ -52,7 +52,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 //		.exceptionHandling().accessDeniedPage("/error_403");
 		
 		http.authorizeRequests().antMatchers("/", "/css/**", "/js/**", 
-				"/images/**", "/productos/listar", "/productos/ver/**","/uploads/**","/productos/buscar/*","/fotos/uploads/*").permitAll()
+				"/images/**", "/productos/listar", "/productos/ver/**", "/vectores/listar", "/vectores/ver/**","/vectores/uploads/*","/vectores/buscar/*","/uploads/**","/productos/buscar/*","/fotos/uploads/*").permitAll()
 		.antMatchers("/calculadora/**").hasAnyRole("ADMIN")
 		.antMatchers("/usuarios/**").hasAnyRole("ADMIN")
 		.antMatchers("/vectores/**").hasAnyRole("USER","ADMIN")

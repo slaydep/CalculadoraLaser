@@ -10,30 +10,30 @@
 <body>
 
 	<header th:fragment="header">
-		<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-warning">
-			<a class="navbar-brand text-dark" th:href="@{/}">Catalogo Laser Bogota 80</a>
+		<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-warning">
+			<a class="navbar-brand text-dark h1" th:href="@{/}">Catalogo Laser Bogota 80</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" 
 			data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a class="nav-link text-dark"
+					<li class="nav-item"><a class="nav-link text-dark h5"
 						href="#about" sec:authorize="hasRole('ROLE_ADMIN')"
 						th:href="@{/usuarios/listar}">Usuarios</a></li>
-					<li class="nav-item"><a class="nav-link text-dark"
+					<li class="nav-item"><a class="nav-link text-dark h5"
 						href="#about" sec:authorize="hasAnyRole('ROLE_ADMIN')"
 						th:href="@{/calculadora/listar}">Calculadora</a></li>
-					<li class="nav-item"><a class="nav-link text-dark"
+					<li class="nav-item"><a class="nav-link text-dark h5"
 						href="#about"
 						th:href="@{/productos/listar}">Productos</a></li>
-					<li class="nav-item"><a class="nav-link text-dark"
-						href="#about" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')"
+					<li class="nav-item"><a class="nav-link text-dark h5"
+						href="#about" 
 						th:href="@{/vectores/listar}">Vectores</a></li>
-					<li class="nav-item"><a class="nav-link text-dark"
+					<li class="nav-item"><a class="nav-link text-dark h5"
 						href="#about" sec:authorize="hasAnyRole('ROLE_ADMIN')"
 						th:href="@{/fotos/listar}">Fotos</a></li>
-					<li class="nav-item"><a class="nav-link text-dark"
+					<li class="nav-item"><a class="nav-link text-dark h5"
 						href="#about" sec:authorize="hasAnyRole('ROLE_ADMIN')"
 						th:href="@{/ventas/listar}">Ventas</a></li>
 				</ul>

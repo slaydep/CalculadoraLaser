@@ -43,9 +43,9 @@
 						<div
 							th:class="${iStat.index==0}?'carousel-item active':'carousel-item'"
 							th:each="foto, iStat:${producto.fotos}">
-							<img th:if="${#strings.length(foto.foto)>0}"
+							<a class="link" th:href="@{/productos/ver/} + ${producto.id}"><img th:if="${#strings.length(foto.foto)>0}"
 								class="img-thumbnail rounded d-block" th:alt="${foto.foto}"
-								th:src="${'/fotos/uploads/'}+ ${foto.foto}" />
+								th:src="${'/fotos/uploads/'}+ ${foto.foto}" /></a>
 						</div>
 
 					</div>
@@ -73,7 +73,7 @@
 						<div class="card-text">
 							Descripcion: <span th:text="${producto.descripcion}"></span>
 						</div>
-						<div class="h4">
+						<div class="h4" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 							Precio: $<span th:text="${producto.precioVenta}"></span>
 						</div>
 					</div>

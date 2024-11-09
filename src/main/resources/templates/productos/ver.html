@@ -36,17 +36,17 @@
 					</a>
 				</div>
 				<ul class="list-group">
-					<li class="list-group-item h5">Nombre: <span
+					<li class="list-group-item">Nombre: <span
 						th:text="${producto.nombre}" /></li>
-					<li class="list-group-item h5">Codigo: <span
+					<li class="list-group-item">Codigo: <span
 						th:text="${producto.codigo}" /></li>
-					<li class="list-group-item h5">Descripcion: <span
+					<li class="list-group-item">Descripcion: <span
 						th:text="${producto.descripcion}" /></li>
-					<li class="list-group-item h5"
-						sec:authorize="hasAnyRole('ROLE_ADMIN')">Precio
+					<li class="list-group-item"
+						sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Precio
 						Fabrica: $<span th:text="${producto.precioFabrica}" />
 					</li>
-					<li class="list-group-item h5">Precio Venta: $<span
+					<li class="list-group-item" sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">Precio Venta: $<span
 						th:text="${producto.precioVenta}" /></li>
 
 				</ul>
